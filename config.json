@@ -1,4 +1,5 @@
 {
-	"host": "http://localhost:3000/",
-	"api_endpoint": "/api/v1/message/new"
+	"hostname": "https://alert-manager.herokuapp.com/",
+	"api_endpoint": "api/v1/messages",
+        "key":"o43ijt3tj43iotn43otln4"
 }
