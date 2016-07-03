@@ -9,6 +9,7 @@ from sys import byteorder
 from pprint import pprint
 import urllib
 import getopt, sys
+import os
 
 try:
   opts, args = getopt.getopt(sys.argv[1:], "fgsbt:v", ["file=", "group=","title=","body="])
@@ -38,7 +39,7 @@ for o, a in opts:
   else:
     assert False, "unhandled option"
 
-with open('config.json') as config_file:    
+with open(os.path.dirname(os.path.abspath(__file__)) + '/config.json') as config_file:    
     config = json.load(config_file)
 
 try:
