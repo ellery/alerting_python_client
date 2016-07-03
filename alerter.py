@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import requests
 import base64
 import json
@@ -9,7 +11,7 @@ import urllib
 import getopt, sys
 
 try:
-  opts, args = getopt.getopt(sys.argv[1:], "fg:v", ["file=", "group="])
+  opts, args = getopt.getopt(sys.argv[1:], "fgsbt:v", ["file=", "group=","title=","body="])
 except getopt.GetoptError as err:
   # print help information and exit:
   print str(err)  # will print something like "option -a not recognized"
@@ -17,6 +19,9 @@ except getopt.GetoptError as err:
   sys.exit(2)
 output = None
 verbose = False
+dont_notify = False
+body = ''
+title = ''
 for o, a in opts:
   if o == "-v":
     verbose = True
@@ -24,6 +29,12 @@ for o, a in opts:
     source_file = a
   elif o in ("-g", "--group"):
     group = a
+  elif o in ("-s"):
+    dont_notify = True
+  elif o in ("-b", "--body"):
+    body = a 
+  elif o in ("-t", "--title"):
+    title = a 
   else:
     assert False, "unhandled option"
 
@@ -74,6 +85,9 @@ payload = dict()
 payload['message'] = dict()
 payload['message']['group_id'] = group
 payload['message']['audio_file'] = encoded_audio_file
+payload['message']['dont_notify'] = dont_notify
+payload['message']['title'] = title
+payload['message']['body'] = body
 
 try:
   response = requests.post(url, json=payload)
